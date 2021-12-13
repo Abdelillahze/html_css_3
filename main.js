@@ -5,9 +5,9 @@ let futureTime = new Date("Dec 31, 2021 23:59:59");
 function counter() {
   let time = new Date();
   let between = futureTime.getTime() - time.getTime();
-  let seconds = Math.floor(futureTime.getSeconds() - time.getSeconds());
-  let mins = Math.floor(futureTime.getMinutes() - time.getMinutes());
-  let hours = Math.floor(futureTime.getHours() - time.getHours());
+  let seconds = futureTime.getSeconds() - time.getSeconds();
+  let mins = futureTime.getMinutes() - time.getMinutes();
+  let hours = futureTime.getHours() - time.getHours();
   let days = Math.floor(between / 86400000);
 
   document.querySelector(".seconds").innerHTML =
@@ -24,7 +24,7 @@ function counter() {
 let interval = setInterval(counter, 1000);
 
 // scroll
-
+let started = true;
 window.addEventListener("scroll", () => {
   //ourskills
   let ourSkills = document.querySelector(".our-skills");
@@ -36,28 +36,31 @@ window.addEventListener("scroll", () => {
   let stats = document.querySelector(".stats");
   let h1 = document.querySelectorAll(".stats .col h1");
   let col = document.querySelectorAll(".stats .col");
-  if (scrollY >= stats.offsetTop) {
-    h1.forEach((e) => {
-      let number = 0;
-      let counter = setInterval(() => {
-        if (number == e.dataset.content) {
-          clearInterval(counter);
-        } else {
-          number++;
-          e.innerHTML = number;
-          if (e.dataset.letter != undefined) {
-            e.innerHTML += e.dataset.letter;
+  if (scrollY >= stats.offsetTop - 200) {
+    if (started) {
+      h1.forEach((e) => {
+        let number = 0;
+        let counter = setInterval(() => {
+          if (number == e.dataset.content) {
+            clearInterval(counter);
+          } else {
+            number++;
+            e.innerHTML = number;
+            if (e.dataset.letter != undefined) {
+              e.innerHTML += e.dataset.letter;
+            }
           }
-        }
-      }, 1);
+        }, 10);
 
-      for (let i = 0; i < col.length; i++) {
-        setTimeout(() => {
-          col[i].style.cssText =
-            "transform: translateY(0%); opacity: 0.8; z-index: 1";
-        }, i * 200);
-      }
-    });
+        for (let i = 0; i < col.length; i++) {
+          setTimeout(() => {
+            col[i].style.cssText =
+              "transform: translateY(0%); opacity: 0.8; z-index: 1";
+          }, i * 200);
+        }
+      });
+    }
+    started = false;
   }
 });
 
@@ -76,3 +79,19 @@ videoB.forEach(
       e.style.backgroundColor = "#fafafa";
     })
 );
+
+let articles = document.getElementById("articles");
+window.addEventListener("scroll", () => {
+  let el = document.querySelectorAll(".reveal");
+
+  for (let i = 0; i < el.length; i++) {
+    let windowHeight = window.innerHeight;
+    let reveal = el[i].getBoundingClientRect().top;
+
+    if (reveal < windowHeight - 100) {
+      el[i].classList.add("active");
+    } else {
+      el[i].classList.remove("active");
+    }
+  }
+});
