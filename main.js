@@ -1,28 +1,3 @@
-// counter
-
-let futureTime = new Date("Dec 31, 2021 23:59:59");
-
-function counter() {
-  let time = new Date();
-  let between = futureTime.getTime() - time.getTime();
-  let seconds = futureTime.getSeconds() - time.getSeconds();
-  let mins = futureTime.getMinutes() - time.getMinutes();
-  let hours = futureTime.getHours() - time.getHours();
-  let days = Math.floor(between / 86400000);
-
-  document.querySelector(".seconds").innerHTML =
-    seconds < 10 ? `0${seconds}` : seconds;
-  document.querySelector(".minutes").innerHTML = mins < 10 ? `0${mins}` : mins;
-  document.querySelector(".hours").innerHTML = hours < 10 ? `0${hours}` : hours;
-  document.querySelector(".days").innerHTML = days < 10 ? `0${days}` : days;
-
-  if (between == 0) {
-    clearInterval(interval);
-  }
-}
-
-let interval = setInterval(counter, 1000);
-
 // scroll
 let started = true;
 window.addEventListener("scroll", () => {
